@@ -15,6 +15,9 @@ class _CadastroState extends State<Cadastro> {
   bool senhaVisivel = false;
   bool confirmarSenhaVisivel = false;
   bool carregando = false;
+  bool temMaiuscula = false;
+  bool temNumero = false;
+  bool tamanhoOk = false;
 
   final nomeController = TextEditingController();
   final emailController = TextEditingController();
@@ -23,6 +26,24 @@ class _CadastroState extends State<Cadastro> {
 
   String erro = "";
 
+  String validarSenhaMensagem(String senha) {
+    List<String> erros = [];
+
+    if (senha.length < 6) {
+      erros.add("mín. 6 caracteres");
+    }
+    if (!RegExp(r'[A-Z]').hasMatch(senha)) {
+      erros.add("1 letra maiúscula");
+    }
+    if (!RegExp(r'[0-9]').hasMatch(senha)) {
+      erros.add("1 número");
+    }
+
+    if (erros.isEmpty) return "";
+
+    return "Senha precisa de: ${erros.join(", ")}";
+  }
+
   Future<void> cadastrar() async {
     setState(() {
       carregando = true;
@@ -30,6 +51,12 @@ class _CadastroState extends State<Cadastro> {
     });
 
     try {
+      final senhaErro = validarSenhaMensagem(senhaController.text);
+
+      if (senhaErro.isNotEmpty) {
+        throw Exception(senhaErro);
+      }
+
       if (senhaController.text != confirmarSenhaController.text) {
         throw Exception("Senhas não coincidem");
       }
@@ -48,7 +75,7 @@ class _CadastroState extends State<Cadastro> {
       if (e.code == 'email-already-in-use') {
         erro = "Email já cadastrado";
       } else if (e.code == 'weak-password') {
-        erro = "Senha muito fraca";
+        erro = "Senha não atende aos requisitos";
       } else if (e.code == 'invalid-email') {
         erro = "Email inválido";
       } else {
@@ -193,6 +220,11 @@ class _CadastroState extends State<Cadastro> {
                               controller: senhaController,
                               obscureText: !senhaVisivel,
                               cursorColor: AppColors.primaryblue,
+                              onChanged: (value) {
+                                setState(() {
+                                  erro = validarSenhaMensagem(value);
+                                });
+                              },
                               decoration: InputDecoration(
                                 hintText: "Senha",
                                 hintStyle:
