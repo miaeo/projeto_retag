@@ -235,7 +235,7 @@ class _LoginState extends State<Login> {
                         child: Text(
                           erro,
                           style: GoogleFonts.inter(
-                            color: Colors.red,
+                            color: AppColors.red,
                             fontSize: 12,
                           ),
                         ),

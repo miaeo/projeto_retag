@@ -123,8 +123,8 @@ class _EsqueciSenhaState extends State<EsqueciSenha> {
                             erro.isNotEmpty ? erro : sucesso,
                             style: GoogleFonts.inter(
                               color: erro.isNotEmpty
-                                  ? Colors.red
-                                  : Colors.green,
+                                  ? AppColors.red
+                                  : AppColors.green,
                               fontSize: 12,
                             ),
                           ),

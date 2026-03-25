@@ -267,7 +267,7 @@ class _CadastroState extends State<Cadastro> {
                                   child: Text(
                                     erro,
                                     style: GoogleFonts.inter(
-                                      color: Colors.red,
+                                      color: AppColors.red,
                                       fontSize: 12,
                                     ),
                                   ),
