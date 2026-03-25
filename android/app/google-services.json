@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "599835677143",
+    "project_id": "retag-34611",
+    "storage_bucket": "retag-34611.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599835677143:android:575c6eb953d4f407d67b92",
+        "android_client_info": {
+          "package_name": "com.ifrn.retag"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599835677143-5vnqcep73mba3h0sd10rbjtkoshfjppj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ifrn.retag",
+            "certificate_hash": "ffc68e0e97aba53129231dc4693d392da9949126"
+          }
+        },
+        {
+          "client_id": "599835677143-4gp7akneo3n6o4h278cqfp42jf77u7aj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_Dxp28PGIvS6-V87UxAyyD_N_2hevwt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599835677143-4gp7akneo3n6o4h278cqfp42jf77u7aj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
