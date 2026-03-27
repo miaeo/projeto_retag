@@ -16,7 +16,8 @@ class AppColors {
   static const bluebackground = Color(0xFFEDF1FE);
 
   static const gray = Color(0xFFB5B5B5);
-  static const lightgray = Color(0xFFF2F2F2);
+  static const grayline = Color(0xFFF9F9F9);
+  static const lightgray = Color(0xFFF7F7F7);
   static const grayblue = Color(0xFF8390A3);
   static const grayscale = Color(0xFF718096);
 }
