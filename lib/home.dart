@@ -201,8 +201,131 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 30),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Atalhos rápidos",
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 14),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _atalhoItem(
+                              Icons.qr_code_rounded,
+                              "Scanner",
+                              5,
+                              AppColors.skyblue,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: _atalhoItem(
+                              Icons.inventory,
+                              "Estoque",
+                              1,
+                              AppColors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _atalhoItem(
+                              Icons.add_outlined,
+                              "Novo produto",
+                              2,
+                              AppColors.purple,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: _atalhoItem(
+                              Icons.sell_rounded,
+                              "Etiquetas",
+                              3,
+                              AppColors.red,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ],
             )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _atalhoItem(
+      IconData icon,
+      String titulo,
+      int destino,
+      Color cor,
+      ) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          index = destino;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppColors.secondaryblue,
+            width: 1.5,
+          ),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: cor,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: 22,
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            Text(
+              titulo,
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+            ),
           ],
         ),
       ),
