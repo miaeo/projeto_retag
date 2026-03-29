@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'cores.dart';
+import 'screens/perfil/perfil.dart';
+import 'screens/estoque/estoque.dart';
+import 'screens/scanner/scanner.dart';
+import 'screens/produto/addproduto.dart';
+import 'screens/etiquetas/etiquetas.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -18,20 +23,6 @@ class Home extends StatefulWidget {
 
   @override
   State<Home> createState() => _HomeState();
-}
-
-class telaEscanear extends StatelessWidget {
-  const telaEscanear({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.background,
-      child: const Center(
-        child: Text("Escaneamento"),
-      ),
-    );
-  }
 }
 
 class _HomeState extends State<Home> {
@@ -334,11 +325,11 @@ class _HomeState extends State<Home> {
 
   List<Widget> get telas => [
     telaInicio(),
-    const Center(child: Text("Estoque")),
-    const Center(child: Text("Adicionar novo produto")),
-    const Center(child: Text("Etiquetas")),
-    const Center(child: Text("Perfil")),
-    telaEscanear(),
+    const EstoqueScreen(),
+    const AddProdutoScreen(),
+    const EtiquetasScreen(),
+    const PerfilScreen(),
+    const ScannerScreen(),
   ];
 
   final icons = [
