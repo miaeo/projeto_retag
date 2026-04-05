@@ -27,6 +27,28 @@ class _AddProdutoScreenState extends State<AddProdutoScreen> {
 
     if (user == null) return;
 
+    if (nomeController.text.trim().isEmpty) {
+      _erro("Dê um nome ao seu produto");
+      return;
+    }
+
+    if (quantidadeController.text.trim().isEmpty ||
+        int.tryParse(quantidadeController.text) == null) {
+      _erro("Informe uma quantidade válida");
+      return;
+    }
+
+    if (precoController.text.trim().isEmpty ||
+        double.tryParse(precoController.text) == null) {
+      _erro("Informe um preço válido");
+      return;
+    }
+
+    if (validade == null) {
+      _erro("Selecione a data de validade");
+      return;
+    }
+
     setState(() => carregando = true);
 
     try {
@@ -37,23 +59,35 @@ class _AddProdutoScreenState extends State<AddProdutoScreen> {
           .add({
         "nome": nomeController.text,
         "codigoBarras": codigoController.text,
-        "quantidade": int.tryParse(quantidadeController.text) ?? 0,
-        "preco": double.tryParse(precoController.text) ?? 0,
+        "quantidade": int.parse(quantidadeController.text),
+        "preco": double.parse(precoController.text),
         "validade": validade,
         "producao": producao,
         "createdAt": FieldValue.serverTimestamp(),
       });
 
+      if (!context.mounted) return;
+
       Navigator.pushNamedAndRemoveUntil(
         context,
         "/home",
             (route) => false,
+        arguments: 1,
       );
     } catch (e) {
-      print("Erro: $e");
+      _erro("Erro ao salvar produto");
     }
 
     setState(() => carregando = false);
+  }
+
+  void _erro(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(msg),
+        backgroundColor: AppColors.red,
+      ),
+    );
   }
 
   Future<void> selecionarData(bool isValidade) async {
@@ -133,7 +167,7 @@ class _AddProdutoScreenState extends State<AddProdutoScreen> {
         child: ListView(
           children: [
             _campo("Nome *", nomeController),
-            _campo("Código de barras", codigoController),
+            _campoCodigoBarras(),
 
             Row(
               children: [
@@ -225,4 +259,57 @@ class _AddProdutoScreenState extends State<AddProdutoScreen> {
       ],
     );
   }
+  Widget _campoCodigoBarras() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Código de barras",
+          style: GoogleFonts.inter(
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(height: 6),
+
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            color: AppColors.lightgray,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: codigoController,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    "/home",
+                        (route) => false,
+                    arguments: 5,
+                  );
+                },
+                child: const Icon(
+                  Icons.qr_code_rounded,
+                  color: AppColors.gray,
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 12),
+      ],
+    );
+  }
 }
+
