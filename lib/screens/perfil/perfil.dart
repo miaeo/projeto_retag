@@ -56,38 +56,40 @@ class PerfilScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            _perfilHeader(),
-            const SizedBox(height: 20),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              _perfilHeader(),
+              const SizedBox(height: 20),
 
-            _item("Detalhes do perfil", Icons.person),
-            _item("Dispositivos", Icons.devices_rounded),
-            _item("Configurações", Icons.settings),
-            _item("Notificações", Icons.notifications_rounded),
+              _item("Detalhes do perfil", Icons.person),
+              _item("Dispositivos", Icons.devices_rounded),
+              _item("Configurações", Icons.settings),
+              _item("Notificações", Icons.notifications_rounded),
 
-            const SizedBox(height: 5),
-            Divider(color: Colors.grey.shade300),
+              const SizedBox(height: 5),
+              Divider(color: Colors.grey.shade300),
 
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-            _item("Suporte", Icons.support),
-            _item(
-              "Logout",
-              Icons.logout,
-              onTap: () async {
-                await FirebaseAuth.instance.signOut();
+              _item("Suporte", Icons.support),
+              _item(
+                "Logout",
+                Icons.logout,
+                onTap: () async {
+                  await FirebaseAuth.instance.signOut();
 
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  "/login",
-                      (route) => false,
-                );
-              },
-            ),
-          ],
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    "/login",
+                        (route) => false,
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
