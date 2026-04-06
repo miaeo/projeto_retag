@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../cores.dart';
 
 class EtiquetasScreen extends StatefulWidget {
@@ -10,7 +11,6 @@ class EtiquetasScreen extends StatefulWidget {
 }
 
 class _EtiquetasScreenState extends State<EtiquetasScreen> {
-  int? expandedIndex;
 
   final List<Map<String, dynamic>> etiquetas = [
     {"id": "Label001", "nome": "Arroz 5KG", "preco": 24.90, "online": true},
@@ -56,7 +56,7 @@ class _EtiquetasScreenState extends State<EtiquetasScreen> {
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
               onTap: () {
-                // todo: adicionar nova etiqueta
+                // todo: adicionar etiqueta
               },
               child: Container(
                 width: 36,
@@ -103,19 +103,12 @@ class _EtiquetasScreenState extends State<EtiquetasScreen> {
           itemCount: etiquetas.length,
           itemBuilder: (context, index) {
             final item = etiquetas[index];
-            final isExpanded = expandedIndex == index;
 
             return _itemEtiqueta(
               id: item["id"],
               nome: item["nome"],
               preco: item["preco"],
               online: item["online"],
-              expanded: isExpanded,
-              onTap: () {
-                setState(() {
-                  expandedIndex = isExpanded ? null : index;
-                });
-              },
             );
           },
         ),
@@ -128,120 +121,112 @@ class _EtiquetasScreenState extends State<EtiquetasScreen> {
     required String nome,
     required double preco,
     required bool online,
-    required bool expanded,
-    required VoidCallback onTap,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeInOut,
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppColors.lightgray,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Slidable(
+        key: ValueKey(id),
+
+        endActionPane: ActionPane(
+          motion: const StretchMotion(),
+          extentRatio: 0.5,
+
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  id,
-                  style: GoogleFonts.inter(
-                    fontSize: 12,
-                    color: Colors.grey,
-                  ),
+            _botaoAcao(
+              icon: Icons.edit,
+              color: AppColors.primaryblue,
+              onTap: () {
+                // todo: editar
+              },
+            ),
+            _botaoAcao(
+              icon: Icons.link_off_outlined,
+              color: AppColors.red,
+              onTap: () {
+                // todo: desconectar
+              },
+            ),
+          ],
+        ),
+
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AppColors.lightgray,
+            borderRadius: BorderRadius.circular(16),
+          ),
+
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      id,
+                      style: GoogleFonts.inter(
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      nome,
+                      style: GoogleFonts.inter(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: online ? AppColors.green : AppColors.red,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 6),
-
-            Text(
-              nome,
-              style: GoogleFonts.inter(
-                fontSize: 17,
-                fontWeight: FontWeight.w700,
               ),
-            ),
 
-            const SizedBox(height: 4),
-
-            Text(
-              "R\$ ${preco.toStringAsFixed(2)}",
-              style: GoogleFonts.inter(
-                fontSize: 14,
-                color: AppColors.primaryblue,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-
-            if (expanded) ...[
-              const SizedBox(height: 16),
-              Divider(color: Colors.grey.shade300),
-              const SizedBox(height: 12),
-
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Expanded(
-                    child: _botaoAcao(
-                      "Editar",
-                      AppColors.primaryblue,
-                          () {
-                        // todo: editar
-                      },
+                  Container(
+                    width: 10,
+                    height: 10,
+                    decoration: BoxDecoration(
+                      color: online ? AppColors.green : AppColors.red,
+                      shape: BoxShape.circle,
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _botaoAcao(
-                      "Desconectar",
-                      AppColors.red,
-                          () {
-                        // todo: desconectar
-                      },
+                  const SizedBox(height: 6),
+                  Text(
+                    "R\$ ${preco.toStringAsFixed(2)}",
+                    style: GoogleFonts.inter(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
                     ),
                   ),
                 ],
               ),
             ],
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _botaoAcao(
-      String texto,
-      Color cor,
-      VoidCallback onTap,
-      ) {
-    return GestureDetector(
-      onTap: onTap,
+  Widget _botaoAcao({
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return CustomSlidableAction(
+      onPressed: (_) => onTap(),
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: cor.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(10),
+          color: color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(14),
         ),
         child: Center(
-          child: Text(
-            texto,
-            style: GoogleFonts.inter(
-              color: cor,
-              fontWeight: FontWeight.w600,
-            ),
+          child: Icon(
+            icon,
+            color: color,
+            size: 28,
           ),
         ),
       ),
