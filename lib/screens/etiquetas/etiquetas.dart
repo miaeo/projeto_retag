@@ -248,6 +248,7 @@ class _EtiquetasScreenState extends State<EtiquetasScreen> {
             );
           },
         ),
+
         centerTitle: true,
         title: Text(
           "Etiquetas",
@@ -256,6 +257,7 @@ class _EtiquetasScreenState extends State<EtiquetasScreen> {
             fontWeight: FontWeight.w600,
           ),
         ),
+
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
