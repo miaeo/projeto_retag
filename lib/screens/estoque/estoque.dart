@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../cores.dart';
+import '../produto/addproduto.dart';
 
 class EstoqueScreen extends StatefulWidget {
   const EstoqueScreen({super.key});
@@ -68,8 +69,15 @@ class _EstoqueScreenState extends State<EstoqueScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, "/add_produto");
+              onTap: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) =>
+                    const AddProdutoScreen(),
+                  ),
+                );
+                setState(() {});
               },
               child: Container(
                 width: 36,
