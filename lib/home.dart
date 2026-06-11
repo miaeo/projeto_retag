@@ -5,6 +5,7 @@ import 'screens/estoque/estoque.dart';
 import 'screens/scanner/scanner.dart';
 import 'screens/produto/addproduto.dart';
 import 'screens/etiquetas/etiquetas.dart';
+import 'screens/etiquetas/addetiqueta.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -27,6 +28,89 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int index = 0;
+  bool _argumentSetado = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments;
+
+    if (!_argumentSetado && args != null && args is int) {
+      index = args;
+      _argumentSetado = true;
+    }
+
+    return Scaffold(
+      body: telas[index],
+
+      bottomNavigationBar: Container(
+        color: Colors.white,
+        child: SafeArea(
+          top: false,
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              border: Border(
+                top: BorderSide(
+                  color: AppColors.lightgray,
+                  width: 1,
+                ),
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: List.generate(5, (i) {
+                final isSelected = index == i && index < 5;
+
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      index = i;
+                    });
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: EdgeInsets.all(i == 2 ? 12 : 10),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.secondaryblue
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      icons[i],
+                      size: i == 2 ? 32 : 26,
+                      color: isSelected
+                          ? AppColors.primaryblue
+                          : AppColors.gray,
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<Widget> get telas => [
+    telaInicio(),
+    const EstoqueScreen(),
+    const AddProdutoScreen(),
+    const EtiquetasScreen(),
+    const PerfilScreen(),
+    const ScannerScreen(),
+    const AddEtiquetaScreen(),
+  ];
+
+  final icons = [
+    Icons.home,
+    Icons.inventory,
+    Icons.add_outlined,
+    Icons.sell_rounded,
+    Icons.person,
+  ];
 
   Widget telaInicio() {
     final user = FirebaseAuth.instance.currentUser;
@@ -143,7 +227,7 @@ class _HomeState extends State<Home> {
                 const SizedBox(height: 145),
 
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
@@ -158,11 +242,12 @@ class _HomeState extends State<Home> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "Escaneamento rápido",
@@ -192,10 +277,12 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 30),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 20),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -203,7 +290,6 @@ class _HomeState extends State<Home> {
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -212,7 +298,8 @@ class _HomeState extends State<Home> {
                 const SizedBox(height: 14),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
                       Row(
@@ -262,7 +349,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -292,7 +379,6 @@ class _HomeState extends State<Home> {
           ),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               padding: const EdgeInsets.all(12),
@@ -300,98 +386,17 @@ class _HomeState extends State<Home> {
                 color: cor,
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                icon,
-                color: Colors.white,
-                size: 22,
-              ),
+              child: Icon(icon, color: Colors.white, size: 22),
             ),
-
             const SizedBox(height: 8),
-
             Text(
               titulo,
               style: GoogleFonts.inter(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: Colors.black,
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  List<Widget> get telas => [
-    telaInicio(),
-    const EstoqueScreen(),
-    const AddProdutoScreen(),
-    const EtiquetasScreen(),
-    const PerfilScreen(),
-    const ScannerScreen(),
-  ];
-
-  final icons = [
-    Icons.home,
-    Icons.inventory,
-    Icons.add_outlined,
-    Icons.sell_rounded,
-    Icons.person,
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: telas[index],
-
-      bottomNavigationBar: Container(
-        color: Colors.white,
-        child: SafeArea(
-          top: false,
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                top: BorderSide(
-                  color: AppColors.lightgray,
-                  width: 1,
-                ),
-              ),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: List.generate(5, (i) {
-                final isSelected = index == i && index < 5;
-
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      index = i;
-                    });
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    padding: EdgeInsets.all(i == 2 ? 12 : 10),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? AppColors.secondaryblue
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(
-                      icons[i],
-                      size: i == 2 ? 32 : 26,
-                      color: isSelected
-                          ? AppColors.primaryblue
-                          : AppColors.gray,
-                    ),
-                  ),
-                );
-              }),
-            ),
-          ),
         ),
       ),
     );
