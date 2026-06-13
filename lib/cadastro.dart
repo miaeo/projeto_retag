@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'cores.dart';
+import 'utils/validadores.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -25,24 +26,6 @@ class _CadastroState extends State<Cadastro> {
   final confirmarSenhaController = TextEditingController();
 
   String erro = "";
-
-  String validarSenhaMensagem(String senha) {
-    List<String> erros = [];
-
-    if (senha.length < 6) {
-      erros.add("mín. 6 caracteres");
-    }
-    if (!RegExp(r'[A-Z]').hasMatch(senha)) {
-      erros.add("1 letra maiúscula");
-    }
-    if (!RegExp(r'[0-9]').hasMatch(senha)) {
-      erros.add("1 número");
-    }
-
-    if (erros.isEmpty) return "";
-
-    return "Senha precisa de: ${erros.join(", ")}";
-  }
 
   Future<void> cadastrar() async {
     setState(() {
