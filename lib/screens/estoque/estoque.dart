@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../cores.dart';
 import '../produto/addproduto.dart';
+import '/../utils/validadores.dart';
 
 class EstoqueScreen extends StatefulWidget {
   const EstoqueScreen({super.key});
@@ -23,20 +24,6 @@ class _EstoqueScreenState extends State<EstoqueScreen> {
     if (timestamp == null) return "-";
     final data = timestamp.toDate();
     return "${data.day}/${data.month}/${data.year}";
-  }
-
-  String getStatusValidade(Timestamp? validade) {
-    if (validade == null) return "ok";
-
-    final hoje = DateTime.now();
-    final data = validade.toDate();
-
-    final diferenca = data.difference(hoje).inDays;
-
-    if (diferenca < 0) return "vencido";
-    if (diferenca <= 3) return "proximo";
-
-    return "ok";
   }
 
   @override

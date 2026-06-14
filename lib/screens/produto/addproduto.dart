@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../cores.dart';
+import '/../utils/validadores.dart';
 
 class AddProdutoScreen extends StatefulWidget {
   const AddProdutoScreen({super.key});
@@ -107,11 +108,6 @@ class _AddProdutoScreenState extends State<AddProdutoScreen> {
         }
       });
     }
-  }
-
-  String formatarData(DateTime? data) {
-    if (data == null) return "dd/mm/aaaa";
-    return "${data.day}/${data.month}/${data.year}";
   }
 
   @override
