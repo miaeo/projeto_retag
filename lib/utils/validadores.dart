@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
+// gerenciamento de produtos
 String formatarData(DateTime? data) {
   if (data == null) return "dd/mm/aaaa";
   return "${data.day}/${data.month}/${data.year}";
@@ -19,6 +21,7 @@ String getStatusValidade(Timestamp? validade) {
   return "ok";
 }
 
+// autenticação
 String validarSenhaMensagem(String senha) {
   List<String> erros = [];
 
@@ -37,4 +40,30 @@ String validarSenhaMensagem(String senha) {
   if (erros.isEmpty) return "";
 
   return "Senha precisa de: ${erros.join(", ")}";
+}
+
+
+// gerenciamento de etiquetas
+String normalizarEtiquetaId(String id) {
+  return id
+      .trim()
+      .toLowerCase()
+      .replaceAll(' ', '');
+}
+
+bool podeEnviarParaLCD(bool online) {
+  return online;
+}
+
+Map<String, dynamic> criarMensagemDisplay({
+  required String id,
+  required String nome,
+  required double preco,
+}) {
+  return {
+    "action": "display",
+    "id": id,
+    "nome": nome,
+    "preco": preco,
+  };
 }
